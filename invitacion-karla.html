@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invitación de Karla</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Eater&family=Anton&family=Special+Elite&family=Caveat:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- ============ ENVELOPE ============ -->
+    <div id="envelope-screen">
+      <div class="envelope" id="envelope">
+        <img src="images/logoBeige.png" alt="Logo" class="logo" />
+        <img src="images/sobre.png" alt="Sobre" class="envelope-img" />
+        <img src="images/sello.png" alt="Sello" class="env-seal" />
+        <div class="env-hint">toca para abrir</div>
+      </div>
+    </div>
+
+    <!-- ============ INVITATION ============ -->
+    <main id="invitation">
+      <section class="hero">
+        <img src="images/logoOrange.png" alt="Logo" class="logo-black" />
+      </section>
+
+
+      <div class="cards-row">
+        <!-- ============ BANNER ============ -->
+        <section class="card banner-card">
+          <div class="banner-wrap">
+            <img
+              src="images/banner.JPG"
+              alt="Halloween Horror Nite — viernes 31 de octubre, 7 PM"
+              class="banner-img"
+            />
+            <div class="banner-sticky">Es válido: botarga <br> No válido: pintacaritas</div>
+          </div>
+          <a
+            class="maps-btn"
+            href="MAPS_LINK_PLACEHOLDER"
+            target="_blank"
+            rel="noopener"
+            >VER UBICACIÓN EN MAPS</a
+          >
+        </section>
+
+        <div class="cards-col">
+          <!-- ============ RSVP ============ -->
+          <section class="card">
+            <h2>¿VIENES O NO?</h2>
+            <div class="field">
+              <label for="nombre">Tu nombre</label>
+              <input type="text" id="nombre" placeholder="¿Quién eres?" />
+            </div>
+            <div class="field">
+              <label>¿Asistes?</label>
+              <div class="choice-group" id="asistencia-group">
+                <div class="choice-btn" data-value="Sí voy">Sí voy</div>
+                <div class="choice-btn" data-value="Tal vez">Tal vez</div>
+                <div class="choice-btn" data-value="No voy">No voy</div>
+              </div>
+            </div>
+            <div class="field" id="acompanantes-field">
+              <label>¿Con cuántos acompañantes?</label>
+              <div class="stepper">
+                <button type="button" id="menos">−</button>
+                <span id="acompanantes-count">0</span>
+                <button type="button" id="mas">+</button>
+              </div>
+            </div>
+            <button class="send-btn" id="enviar-btn" disabled>
+              ENVIAR CONFIRMACIÓN
+            </button>
+            <div class="status-msg" id="status-msg"></div>
+          </section>
+
+          <!-- ============ SPOTIFY ============ -->
+          <section class="card">
+            <h2>MÚSICA PARA LA MASACRE</h2>
+            <p style="text-align: center; font-size: 0.9rem">
+              Agrega tu canción a la playlist <br> entre todos armamos
+              el degenere
+            </p>
+            <a
+              class="spotify-btn"
+              href="SPOTIFY_LINK_PLACEHOLDER"
+              target="_blank"
+              rel="noopener"
+              >ABRIR PLAYLIST EN SPOTIFY</a
+            >
+          </section>
+        </div>
+      </div>
+
+      <footer>nos vemos del otro lado...</footer>
+    </main>
+
+    <script src="script/envelop.js"></script>
+  </body>
+</html>

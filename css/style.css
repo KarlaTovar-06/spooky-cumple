@@ -1,0 +1,428 @@
+:root {
+  --paper: #e7d9b8;
+  --paper-2: #dbc79a;
+  --ink: #2e1a3e;
+  --blood: #d55409;
+  --blood-2: #f75c03;
+  --acid: #81e21f;
+  --tape: rgba(212, 184, 140, 0.85);
+  --tape-line: rgba(97, 37, 119, 0.35);
+  --shadow: rgba(20, 12, 6, 0.45);
+  --card-bg: #efe6cd;
+  --cream: #f2e9d8;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  min-height: 100vh;
+  background-image: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.85) 100%
+    ),
+    url(../images/coverPurple.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: var(--ink);
+  font-family: "Special Elite", "Courier New", monospace;
+  overflow-x: hidden;
+}
+
+/* ============ ENVELOPE SCREEN ============ */
+#envelope-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.85) 100%
+    ),
+    url(../images/cover.jpeg);
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  background-position: center, center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  cursor: pointer;
+}
+
+#envelope-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.envelope {
+  position: relative;
+  width: min(80vw, 360px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.envelope.open {
+  opacity: 0;
+  transform: scale(0.85);
+}
+.envelope-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.6));
+}
+
+.env-seal {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.logo {
+  position: absolute;
+  bottom: 70%;
+  width: 100%;
+  z-index: 5;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.logo-black {
+  width: 100%;
+  z-index: 5;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.envelope.open .env-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+.spider {
+  position: absolute;
+  bottom: -25%;
+  right: -30%;
+  width: 80%;
+  height: 80%;
+  background-image: url(../images/spider.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 50%;
+  rotate: 125deg;
+  z-index: 4;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.env-hint {
+  position: absolute;
+  bottom: -2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(242, 233, 216, 0.6);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* ============ MAIN INVITATION ============ */
+#invitation {
+  display: none;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2vw 2vw 2vw;
+}
+#invitation.show {
+  display: block;
+  animation: fadeUp 0.9s ease;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tape {
+  position: absolute;
+  width: 100px;
+  height: 32px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--tape) 0 6px,
+    var(--tape-line) 6px 7px
+  );
+  box-shadow: 0 2px 4px var(--shadow);
+  opacity: 0.9;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto 1.5rem;
+}
+.hero h1 {
+  font-family: "Eater", cursive;
+  font-size: clamp(2.4rem, 11vw, 4rem);
+  color: var(--blood);
+  margin: 0;
+  line-height: 1;
+  text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+.hero .sub {
+  font-family: "Anton", sans-serif;
+  font-size: clamp(1.3rem, 6vw, 2rem);
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  margin-top: 0.3rem;
+}
+.hero .who {
+  font-family: "Caveat", cursive;
+  font-size: 1.6rem;
+  color: var(--blood-2);
+  margin-top: 0.6rem;
+  transform: rotate(-2deg);
+}
+
+/* Section card, shared style for RSVP / details */
+.card {
+  background: var(--card-bg);
+  box-shadow: 4px 6px 14px var(--shadow);
+  padding: 1.6rem 1.4rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.card h2 {
+  font-family: "Anton", sans-serif;
+  color: var(--blood);
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0 0 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+/* Cards layout: banner 50% left, cards stacked 50% right */
+.cards-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.cards-row .card {
+  margin-bottom: 0;
+}
+.banner-card {
+  flex: 0 0 calc(50% - 1rem);
+  min-width: 0;
+  transform: rotate(-1.2deg);
+}
+.cards-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.cards-col .card:nth-child(1) {
+  transform: rotate(1.1deg);
+}
+.cards-col .card:nth-child(2) {
+  transform: rotate(-0.9deg);
+}
+@media (max-width: 768px) {
+  .cards-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .banner-card {
+    flex: 1;
+  }
+}
+
+/* RSVP */
+.field {
+  margin-bottom: 1.1rem;
+}
+.field label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+  color: var(--blood-2);
+  font-weight: bold;
+}
+.field input[type="text"] {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  font-family: "Special Elite", monospace;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: #fbf7ec;
+  font-size: 0.95rem;
+}
+.choice-group {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.choice-btn {
+  flex: 1;
+  min-width: 90px;
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+  background: #fbf7ec;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  font-family: "Anton", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.choice-btn.selected {
+  background: var(--blood);
+  color: var(--cream);
+  border-color: var(--blood);
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+.stepper button {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--ink);
+  background: #fbf7ec;
+  font-family: "Anton", sans-serif;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.stepper span {
+  font-family: "Anton", sans-serif;
+  font-size: 1.4rem;
+  min-width: 2ch;
+  text-align: center;
+}
+#acompanantes-field {
+  display: none;
+}
+.send-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 0.9rem;
+  background: var(--ink);
+  color: var(--acid);
+  border: none;
+  font-family: "Anton", sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  text-shadow: 1px 0 var(--blood-2);
+}
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.status-msg {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 0.8rem;
+  min-height: 1.2em;
+}
+
+/* Banner card */
+.banner-wrap {
+  position: relative;
+}
+.banner-img {
+  width: 100%;
+  display: block;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+.banner-note {
+  position: absolute;
+  bottom: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 88%;
+  margin-top: 0;
+  background: var(--card-bg);
+  box-shadow: 3px 5px 10px var(--shadow);
+}
+.banner-sticky {
+  position: absolute;
+  top: -10%;
+  left: 0.5rem;
+  width: 42%;
+  padding: 0.6rem 0.7rem;
+  background: #fff3a3;
+  color: #3a2a1a;
+  font-family: "Caveat", cursive;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  text-align: center;
+  box-shadow: 3px 5px 10px var(--shadow);
+  transform: rotate(-5deg);
+  z-index: 2;
+}
+.maps-btn,
+.spotify-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.1rem;
+  text-decoration: none;
+  font-family: "Anton", sans-serif;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+}
+.maps-btn {
+  background: var(--blood);
+  color: var(--cream);
+}
+.spotify-btn {
+  background: #81e21f;
+  color: #0a1a0d;
+}
+.dress-warning {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: rgba(138, 20, 32, 0.08);
+  border-left: 4px solid var(--blood);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+footer {
+  text-align: center;
+  font-family: "Caveat", cursive;
+  font-size: 1.2rem;
+  color: var(--blood-2);
+  margin-top: 1rem;
+}
+
+@media (max-width: 420px) {
+  .polaroid {
+    width: 120px;
+  }
+  .sticky-note {
+    width: 140px;
+  }
+}
