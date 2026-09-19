@@ -246,6 +246,9 @@ body {
   transform: rotate(-0.9deg);
 }
 @media (max-width: 768px) {
+  #invitation {
+    padding: 10vw 8vw 18vw;
+  }
   .cards-row {
     flex-direction: column;
     align-items: stretch;
