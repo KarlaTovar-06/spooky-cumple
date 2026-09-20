@@ -4,7 +4,7 @@ import { z } from "https://cdn.jsdelivr.net/npm/zod@3/+esm";
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbw0tBV_u3i6-WnpNsBKM1iIDZrlDqiT74ON2PzQf31Mzr3SJaFqHZJIsTNfxjFZ88Gw/exec";
 const WHATSAPP_NUMBER = "525633794668";
-const MAPS_LINK = "https://maps.app.goo.gl/9EGbhjSng3CxiDMVA?g_st=ic";
+const MAPS_LINK = "https://maps.app.goo.gl/HufxFPctJzYD4GQA8";
 const SPOTIFY_LINK =
   "https://open.spotify.com/playlist/5sKXw25zT3VBtTCU7kKZim?si=QsY2cypeQPuPIwGpdTw7Sg&utm_source=copy-link&pt=8aca3b0021ab4b3639575d43dcce8c7e&pi=IB1mbT55QbOeG";
 
