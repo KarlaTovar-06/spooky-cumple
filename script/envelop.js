@@ -1,10 +1,12 @@
+import { z } from "https://cdn.jsdelivr.net/npm/zod@3/+esm";
+
 // ---- Config ----
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbw0tBV_u3i6-WnpNsBKM1iIDZrlDqiT74ON2PzQf31Mzr3SJaFqHZJIsTNfxjFZ88Gw/exec";
 const WHATSAPP_NUMBER = "525633794668";
 const MAPS_LINK = "https://maps.app.goo.gl/9EGbhjSng3CxiDMVA?g_st=ic";
 const SPOTIFY_LINK =
-  "https://open.spotify.com/playlist/5sKXw25zT3VBtTCU7kKZim?si=8c2wdtjwQz-inn5M2lWMQQ&utm_source=copy-link&pi=IV4Gd88nSPqcB&nd=1&dlsi=c009c60482304d4e";
+  "https://open.spotify.com/playlist/5sKXw25zT3VBtTCU7kKZim?si=QsY2cypeQPuPIwGpdTw7Sg&utm_source=copy-link&pt=8aca3b0021ab4b3639575d43dcce8c7e&pi=IB1mbT55QbOeG";
 
 // ---- Envelope open ----
 const envelopeScreen = document.getElementById("envelope-screen");
@@ -23,15 +25,41 @@ envelopeScreen.addEventListener("click", () => {
 // ---- RSVP logic ----
 let asistencia = null;
 let acompanantes = 0;
+const MAX_ACOMPANANTES = 3;
 
 const choiceButtons = document.querySelectorAll(
   "#asistencia-group .choice-btn"
 );
+const choiceGroup = document.getElementById("asistencia-group");
 const acompField = document.getElementById("acompanantes-field");
 const enviarBtn = document.getElementById("enviar-btn");
 const nombreInput = document.getElementById("nombre");
 const countSpan = document.getElementById("acompanantes-count");
 const statusMsg = document.getElementById("status-msg");
+const stepperHint = document.getElementById("stepper-hint");
+
+// ---- Validation schema (Zod) ----
+const rsvpSchema = z.object({
+  nombre: z.string().trim().min(1, "¿Y tu nombre? Sin nombre no hay pastel."),
+  asistencia: z.enum(["Sí voy", "Tal vez", "No voy"], {
+    errorMap: () => ({ message: "Elige si vienes o no, no seas misteriosx." }),
+  }),
+  acompanantes: z.number().int().min(0).max(MAX_ACOMPANANTES),
+});
+
+function paintErrors(issues) {
+  clearErrors();
+  issues.forEach((issue) => {
+    if (issue.path[0] === "nombre") nombreInput.classList.add("error");
+    if (issue.path[0] === "asistencia") choiceGroup.classList.add("error");
+  });
+  statusMsg.textContent = issues[0].message;
+}
+
+function clearErrors() {
+  nombreInput.classList.remove("error");
+  choiceGroup.classList.remove("error");
+}
 
 choiceButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -39,29 +67,43 @@ choiceButtons.forEach((btn) => {
     btn.classList.add("selected");
     asistencia = btn.dataset.value;
     acompField.style.display = asistencia === "No voy" ? "none" : "block";
-    checkReady();
+    choiceGroup.classList.remove("error");
   });
 });
 
-const MAX_ACOMPANANTES = 3;
-
 document.getElementById("mas").addEventListener("click", () => {
-  if (acompanantes < MAX_ACOMPANANTES) acompanantes++;
+  if (acompanantes < MAX_ACOMPANANTES) {
+    acompanantes++;
+  } else {
+    stepperHint.classList.add("show");
+  }
   countSpan.textContent = acompanantes;
 });
 document.getElementById("menos").addEventListener("click", () => {
   if (acompanantes > 0) acompanantes--;
   countSpan.textContent = acompanantes;
+  stepperHint.classList.remove("show");
 });
 
-nombreInput.addEventListener("input", checkReady);
-
-function checkReady() {
-  enviarBtn.disabled = !(nombreInput.value.trim().length > 0 && asistencia);
-}
+nombreInput.addEventListener("input", () =>
+  nombreInput.classList.remove("error")
+);
 
 enviarBtn.addEventListener("click", async () => {
-  const nombre = nombreInput.value.trim();
+  // 0. Validar con Zod — si falla, casillas en rojo y no seguimos
+  const result = rsvpSchema.safeParse({
+    nombre: nombreInput.value,
+    asistencia,
+    acompanantes,
+  });
+
+  if (!result.success) {
+    paintErrors(result.error.issues);
+    return;
+  }
+  clearErrors();
+
+  const nombre = result.data.nombre;
   statusMsg.textContent = "Enviando...";
   enviarBtn.disabled = true;
 
@@ -94,8 +136,9 @@ enviarBtn.addEventListener("click", async () => {
 
   statusMsg.textContent = "¡Listo! Te llevamos a WhatsApp para confirmar...";
   setTimeout(() => {
-    window.open(waUrl, "_blank");
-    enviarBtn.disabled = false;
+    // Navegación directa (no popup): en móvil wa.me abre la app,
+    // window.open después del await perdía el gesto del usuario.
+    window.location.href = waUrl;
   }, 600);
 });
 

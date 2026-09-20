@@ -10,6 +10,7 @@
   --shadow: rgba(20, 12, 6, 0.45);
   --card-bg: #efe6cd;
   --cream: #f2e9d8;
+  --error: #b3001b;
 }
 * {
   box-sizing: border-box;
@@ -321,6 +322,27 @@ body {
   font-size: 1.4rem;
   min-width: 2ch;
   text-align: center;
+}
+.stepper-hint {
+  display: none;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-family: "Caveat", cursive;
+  font-size: 1.15rem;
+  color: var(--error);
+  transform: rotate(-1.5deg);
+}
+.stepper-hint.show {
+  display: block;
+}
+
+/* Form validation errors */
+.field input[type="text"].error {
+  border: 2px solid var(--error);
+  background: rgba(179, 0, 27, 0.06);
+}
+.choice-group.error .choice-btn {
+  border-color: var(--error);
 }
 #acompanantes-field {
   display: none;
